@@ -1,0 +1,91 @@
+package com.example.demo.servicios;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.demo.clases.Empleado;
+import com.example.demo.clases.Titulacion;
+import com.example.demo.comprobaciones.Validar;
+import com.example.demo.interfaces.EmpleadoService;
+import com.example.demo.interfaces.TitulacionService;
+import com.example.demo.repositorios.EmpleadoRepository;
+import com.example.demo.repositorios.TitulacionRepository;
+
+@Service
+public class TitulacionServiceImpl implements TitulacionService {
+	@Autowired
+	public TitulacionRepository titulacionRepository;
+
+	@Autowired
+	public EmpleadoRepository empleadoRepository;
+
+	@Autowired
+	public EmpleadoService empleadoService;
+
+	public boolean create(Titulacion titulacion) {
+		if (validarTitulacion(titulacion)
+				&& empleadoRepository.existsById(titulacion.getEmpleadoTitulacion().getId())) {
+			Empleado e = empleadoRepository.findById(titulacion.getEmpleadoTitulacion().getId());
+			titulacion.setEmpleadoTitulacion(e);
+			titulacionRepository.save(titulacion);
+			e.setTitulacion(titulacion);
+			empleadoService.update(e);
+			return true;
+		}
+		return false;
+	}
+
+	public Iterable<Titulacion> getAll() {
+		return titulacionRepository.findAll();
+	}
+
+	public boolean update(Titulacion titulacion) {
+		Titulacion t = titulacionRepository.findById(titulacion.getId());
+		if (validarTitulacion(titulacion) && t != null) {
+			titulacionRepository.save(titulacion);
+			return true;
+		}
+
+		return false;
+	}
+
+	public Titulacion getTitulacion(Integer id) {
+		if (!Validar.estaVacio(id.toString())) {
+			return titulacionRepository.findById(id);
+		}
+		return null;
+	}
+
+	public void delete(Titulacion titulacion) {
+		titulacionRepository.delete(titulacion);
+	}
+
+	@Override
+	public Titulacion getById(Integer id) {
+		if (!Validar.estaVacio(id.toString()) && titulacionRepository.existsById(id)) {
+			return titulacionRepository.findById(id);
+		}
+		return null;
+	}
+
+	@Override
+	public Iterable<Titulacion> getAllByEspecialidad(String especialidad) {
+		return titulacionRepository.findAllByEspecialidad(especialidad);
+	}
+
+	public boolean validarTitulacion(Titulacion titulacion) {
+
+		if (!Validar.estaVacio(titulacion.getCentro()) && !Validar.estaVacio(titulacion.getEspecialidad())
+				&& !Validar.estaVacio(titulacion.getEmpleadoTitulacion().getId().toString())) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public Titulacion getByEmpleadoTitulacion(Integer id) {
+		Empleado e = empleadoRepository.findById(id);
+		return titulacionRepository.findByEmpleadoTitulacion(e);
+	}
+
+}

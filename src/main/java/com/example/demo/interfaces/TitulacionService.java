@@ -1,0 +1,18 @@
+package com.example.demo.interfaces;
+import com.example.demo.clases.Titulacion;
+
+public interface TitulacionService {
+	public Iterable<Titulacion> getAll();
+
+	public boolean create(Titulacion titulacion);
+
+	public Titulacion getById(Integer id);
+
+	public Iterable<Titulacion> getAllByEspecialidad(String especialidad);
+
+	public boolean update(Titulacion titulacion);
+
+	public void delete(Titulacion titulacion);
+
+	public Titulacion getByEmpleadoTitulacion(Integer id);
+}

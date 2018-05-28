@@ -1,0 +1,70 @@
+package com.example.demo.controladores;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.example.demo.clases.Experiencia;
+import com.example.demo.interfaces.ExperienciaService;
+
+@Controller
+@RequestMapping(path = "/experiencias")
+@CrossOrigin(origins = "http://localhost:4200")
+public class ExperienciaController {
+	@Autowired
+	public ExperienciaService experienciaService;
+
+	// AÑADIR
+	@PostMapping(path = "/add")
+	public @ResponseBody Experiencia addNewExperiencia(@RequestBody Experiencia experiencia) {
+		experienciaService.create(experiencia);
+
+		return experiencia;
+	}
+
+	// ELIMINAR
+	@DeleteMapping("/eliminar/{id}")
+	public void deleteById(@PathVariable Integer id) {
+
+		experienciaService.delete(experienciaService.getById(id));
+
+	}
+
+	// UPDATE
+	@PutMapping("/update/{id}")
+	public @ResponseBody boolean updateById(@PathVariable Integer id, @RequestBody Experiencia experiencia) {
+
+		return experienciaService.update(experiencia);
+
+	}
+
+	// ALL
+	@GetMapping("/all")
+	public @ResponseBody Iterable<Experiencia> all() {
+
+		return experienciaService.getAll();
+
+	}
+
+	// FINDBYID
+	@GetMapping("/findbyid/{id}")
+	public @ResponseBody Experiencia findbyId(@PathVariable int id) {
+
+		return experienciaService.getById(id);
+	}
+
+	// FINDALLBYID
+	@GetMapping("/findallbyid/{id}")
+	public @ResponseBody Iterable<Experiencia> findAllbyId(@PathVariable int id) {
+
+		return experienciaService.getAllByEmpleado(id);
+	}
+}

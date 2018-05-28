@@ -1,0 +1,43 @@
+package com.example.demo.clases;
+
+import java.util.Set;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+@Entity
+public class Departamento {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
+	
+	private String nombreDepartamento;
+	
+	//private String jefe;
+	
+	@OneToMany(mappedBy= "departamento")
+	@JsonIgnore
+	private Set<Empleado> empleados;
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+
+	public String getNombreDepartamento() {
+		return nombreDepartamento;
+	}
+
+	public void setNombreDepartamento(String nombreDepartamento) {
+		this.nombreDepartamento = nombreDepartamento;
+	}
+
+}

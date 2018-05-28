@@ -1,0 +1,23 @@
+package com.example.demo.repositorios;
+
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+
+import com.example.demo.clases.Empleado;
+import com.example.demo.clases.Experiencia;
+
+public interface ExperienciaRepository extends CrudRepository<Experiencia, Long> {
+
+	@Query
+	public Experiencia findByEmpleadoExperiencia(Empleado empleado);
+
+	@Query
+	public Experiencia findById(Integer id);
+
+	@Query
+	public boolean existsById(Integer id);
+	
+	@Query
+	public Iterable<Experiencia> findAllByEmpleadoExperiencia(Empleado empleado);
+
+}

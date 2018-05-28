@@ -1,0 +1,37 @@
+package com.example.demo.repositorios;
+
+import java.sql.Date;
+
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+
+import com.example.demo.clases.Empleado;
+import com.example.demo.clases.Historico;
+
+public interface HistoricoRepository extends CrudRepository<Historico, Long> {
+
+	@Query
+	public Historico findByEmpleadoHistorico(Empleado empleado);
+
+	@Query
+	public Historico findById(int id);
+
+	@Query
+	public boolean existsById(Integer id);
+
+	@Query
+	public Iterable<Historico> findAllByPuesto(String puesto);
+
+	@Query
+	public Iterable<Historico> findAllByRango(String rango);
+
+	@Query
+	public Iterable<Historico> findAllByfechaInicio(Date fechaini);
+
+	@Query
+	public Iterable<Historico> findAllByfechaFin(Date fechafin);
+
+	@Query
+	public Iterable<Historico> findAllByEmpleadoHistorico(Empleado empleado);
+
+}

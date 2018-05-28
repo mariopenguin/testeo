@@ -1,0 +1,21 @@
+package com.example.demo.repositorios;
+
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+
+import com.example.demo.clases.Empleado;
+import com.example.demo.clases.MotivacionExpectativa;
+
+public interface MotivacionExpectativaRepository extends CrudRepository<MotivacionExpectativa, Long>{
+	
+	@Query
+	public MotivacionExpectativa findByEmpleadoMotivacionExpectativa(Empleado empleado);
+	
+	@Query
+	public MotivacionExpectativa findById(Integer id);
+
+	@Query
+	public boolean existsById(Integer id);
+	
+
+}

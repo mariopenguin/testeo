@@ -1,0 +1,106 @@
+package com.example.demo.servicios;
+
+import java.sql.Date;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.demo.clases.Empleado;
+import com.example.demo.clases.Historico;
+import com.example.demo.comprobaciones.Validar;
+import com.example.demo.interfaces.HistoricoService;
+import com.example.demo.repositorios.EmpleadoRepository;
+import com.example.demo.repositorios.HistoricoRepository;
+
+@Service
+public class HistoricoServiceImpl implements HistoricoService {
+
+	@Autowired
+	public HistoricoRepository historicoRepository;
+	@Autowired
+	public EmpleadoRepository empleadoRepository;
+
+	@Override
+	public Iterable<Historico> getAll() {
+		return historicoRepository.findAll();
+	}
+
+	// CREATE
+	@Override
+	public boolean create(Historico historico) {
+		if (validarHistorico(historico) && empleadoRepository.existsById(historico.getEmpleado().getId())) {
+			Empleado e = empleadoRepository.findById(historico.getEmpleado().getId());
+
+			historico.setEmpleado(e);
+			historicoRepository.save(historico);
+			return true;
+
+		}
+		return false;
+
+	}
+
+	@Override
+	public Historico getById(Integer id) {
+
+		return historicoRepository.findById(id);
+	}
+
+	@Override
+	public Iterable<Historico> getByPuesto(String puesto) {
+		return historicoRepository.findAllByPuesto(puesto);
+	}
+
+	@Override
+	public Iterable<Historico> getByRango(String rango) {
+		return historicoRepository.findAllByRango(rango);
+	}
+
+	@Override
+	public Iterable<Historico> getByFechaIni(Date fechaIni) {
+		return historicoRepository.findAllByfechaInicio(fechaIni);
+	}
+
+	@Override
+	public Iterable<Historico> getByFechaFin(Date fechaFin) {
+		return historicoRepository.findAllByfechaFin(fechaFin);
+	}
+
+	// ACTUALIZAR
+	@Override
+	public boolean update(Historico historico) {
+
+		if (validarHistorico(historico) && historicoRepository.existsById(historico.getId())) {
+
+			historicoRepository.save(historico);
+			return true;
+
+		}
+		return false;
+	}
+
+	@Override
+	public void delete(Historico historico) {
+		if (historicoRepository.existsById(historico.getId())) {
+			historicoRepository.delete(historico);
+		}
+	}
+
+	@Override
+	public Iterable<Historico> getAllByEmpleado(Integer id) {
+		Empleado e = empleadoRepository.findById(id);
+		return historicoRepository.findAllByEmpleadoHistorico(e);
+	}
+
+	// Validaciones
+
+	private boolean validarHistorico(Historico historico) {
+
+		if (!Validar.estaVacio(historico.getPuesto()) && !Validar.estaVacio(historico.getRango())
+				&& !Validar.estaVacio(historico.getEmpleado().getId().toString())) {
+			return true;
+		}
+		return false;
+	}
+
+}

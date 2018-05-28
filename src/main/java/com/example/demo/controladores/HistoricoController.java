@@ -1,0 +1,88 @@
+package com.example.demo.controladores;
+
+import java.sql.Date;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.example.demo.clases.Historico;
+import com.example.demo.interfaces.HistoricoService;
+
+@Controller
+@RequestMapping(path = "/historicos")
+@CrossOrigin(origins = "http://localhost:4200")
+public class HistoricoController {
+
+	@Autowired
+	HistoricoService historicoService;
+
+	@PostMapping(path = "/add")
+	public @ResponseBody Historico add(@RequestBody Historico historico) {
+
+		historicoService.create(historico);
+		return historico;
+	}
+
+	@DeleteMapping(path = "/delete/{id}")
+	public void delete(@PathVariable Integer id) {
+
+		historicoService.delete(historicoService.getById(id));
+	}
+
+	@PutMapping(path = "/update/{id}")
+	public @ResponseBody boolean update(@PathVariable Integer id, @RequestBody Historico historico) {
+
+		return historicoService.update(historico);
+	}
+
+	@GetMapping(path = "/all")
+	public @ResponseBody Iterable<Historico> all() {
+
+		return historicoService.getAll();
+	}
+
+	@GetMapping(path = "/findbyid/{id}")
+	public @ResponseBody Historico findById(@PathVariable Integer id) {
+
+		return historicoService.getById(id);
+	}
+
+	@GetMapping(path = "/findbypuesto/{puesto}")
+	public @ResponseBody Iterable<Historico> findByPuesto(@PathVariable String puesto) {
+
+		return historicoService.getByPuesto(puesto);
+	}
+
+	@GetMapping(path = "/findbyrango/{rango}")
+	public @ResponseBody Iterable<Historico> findByRango(@PathVariable String rango) {
+
+		return historicoService.getByRango(rango);
+	}
+
+	@GetMapping(path = "/findbyfechainicio/{fechaIni}")
+	public @ResponseBody Iterable<Historico> findByfechaIni(@PathVariable Date fechaIni) {
+
+		return historicoService.getByFechaIni(fechaIni);
+	}
+
+	@GetMapping(path = "/findbyfechafin/{fechaFin}")
+	public @ResponseBody Iterable<Historico> findByfechaFin(@PathVariable Date fechaFin) {
+
+		return historicoService.getByFechaFin(fechaFin);
+	}
+
+	@GetMapping(path = "/findallbyid/{id}")
+	public @ResponseBody Iterable<Historico> findAllById(@PathVariable Integer id) {
+
+		return historicoService.getAllByEmpleado(id);
+	}
+}

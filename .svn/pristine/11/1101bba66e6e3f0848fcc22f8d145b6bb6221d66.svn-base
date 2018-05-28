@@ -1,0 +1,21 @@
+package com.example.demo.repositorios;
+
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+
+import com.example.demo.clases.Departamento;
+
+public interface DepartamentoRepository extends CrudRepository<Departamento, Long>{
+	//asdasd
+	@Query
+	public boolean existsByNombreDepartamento(String name);
+
+	@Query
+	public Departamento findByNombreDepartamento(String name);
+	
+	@Query
+	public Departamento findById(int id);
+	
+	@Query
+	public boolean existsById(Integer id);
+}

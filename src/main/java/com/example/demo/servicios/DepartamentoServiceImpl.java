@@ -99,7 +99,7 @@ public class DepartamentoServiceImpl implements DepartamentoService {
 			JasperCompileManager.compileReportToFile(jrxmlPdfFileName, jasperPdfFileName);
 
 			JasperPrint print = JasperFillManager.fillReport(jasperPdfFileName, null, conex.getConn());
-
+			
 			response.addHeader("Content-disposition", " inline; attachment; filename=ReportAll.pdf");
 			//ServletOutputStream stream = response.getOutputStream();
 

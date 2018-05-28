@@ -30,7 +30,6 @@ public class ExcelServiceImpl implements ExcelService {
 		String[] columns = { "NOMBRE", "PRIMER APELLIDO", "SEGUNDO APELLIDO", "DNI", "EMAIL", "DIRECCIÓN",
 				"PUESTO ACTUAL", "TELÉFONO", "DEPARTAMENTO" };
 		Iterable<Empleado> employees = employeeRepository.getAll();
-
 		response.setContentType("application/vnd.ms-excel");
 		response.setHeader("Content-Disposition", "attachment; filename=employees.xlsx");
 		Workbook workbook = new XSSFWorkbook();

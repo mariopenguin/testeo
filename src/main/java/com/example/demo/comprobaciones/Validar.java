@@ -16,7 +16,7 @@ public class Validar {
 		int resto = 0;
 		char[] asignacionLetra = { 'T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X', 'B', 'N', 'J', 'Z', 'S', 'Q',
 				'V', 'H', 'L', 'C', 'K', 'E' };
-
+System.out.println("a");
 		if (dni.length() == 9 && Character.isLetter(dni.charAt(8))) {
 
 			do {
